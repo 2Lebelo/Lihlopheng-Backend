@@ -29,7 +29,8 @@ router.get('/', async (req, res) => {
         }
         //if departmentId is provided, add a condition to filter subjects by department
         if(departmentId){
-            filterConditions.push(ilike(departments.name, `%${departmentId}%`));
+           const deptPattern = `%${String(departmentId).replace(/[^a-zA-Z0-9]/g, '\\$&')}%`;
+           filterConditions.push(ilike(departments.name, deptPattern));
         }
 
         //combine all filter conditions using AND operator
